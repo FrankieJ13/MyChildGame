@@ -1,4 +1,4 @@
-const CACHE_NAME = "my-child-game-v1";
+const CACHE_NAME = "my-child-game-v2";
 
 const ASSETS = [
   "./",

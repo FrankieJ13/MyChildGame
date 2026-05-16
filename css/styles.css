@@ -111,8 +111,10 @@ h2 {
 .setup-panel,
 .map-panel,
 .resume-panel,
-.leader-panel,
-.board-panel {
+.board-panel,
+.control-panel,
+.turn-panel,
+.leader-panel {
   background: rgba(255, 255, 255, 0.82);
   border: 1px solid var(--line);
   border-radius: 8px;
@@ -252,8 +254,6 @@ h2 {
 .game-window {
   position: relative;
   display: grid;
-  grid-template-rows: auto 1fr;
-  gap: 10px;
   min-height: calc(100dvh - 20px);
   transition: filter 180ms ease, transform 180ms ease;
 }
@@ -299,14 +299,57 @@ h2 {
 
 .game-main {
   display: grid;
-  grid-template-columns: 280px minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1fr) minmax(260px, 310px);
+  gap: 12px;
+  min-height: 0;
+  align-items: stretch;
+}
+
+.control-panel {
+  position: relative;
+  display: grid;
+  grid-template-rows: auto auto minmax(0, 1fr) auto;
   gap: 10px;
+  padding: 14px;
   min-height: 0;
 }
 
+.game-tools {
+  position: relative;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.turn-panel,
 .leader-panel {
-  padding: 14px;
+  padding: 12px;
+}
+
+.turn-panel h2 {
+  margin-bottom: 12px;
+  font-size: clamp(1.15rem, 2.7vw, 1.65rem);
+}
+
+.game-meta {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.game-meta span {
+  min-height: 36px;
+  display: grid;
+  place-items: center;
+  border-radius: 8px;
+  background: #fff;
+  border: 1px solid var(--line);
+  font-weight: 700;
+}
+
+.leader-panel {
   overflow: auto;
+  min-height: 0;
 }
 
 .leader-list {
@@ -357,7 +400,8 @@ h2 {
   grid-template-rows: auto 1fr;
   min-width: 0;
   min-height: 0;
-  padding: 10px;
+  align-content: center;
+  padding: 8px;
 }
 
 .zoom-toolbar {
@@ -387,18 +431,22 @@ h2 {
 
 .board-viewport {
   position: relative;
-  min-height: 420px;
+  display: grid;
+  place-items: center;
+  width: 100%;
+  aspect-ratio: 3 / 2;
+  max-height: calc(100dvh - 88px);
   overflow: hidden;
   border-radius: 8px;
-  background: #cfefff;
+  background: #243047;
   touch-action: none;
 }
 
 .board-layer {
-  position: absolute;
-  inset: 0;
+  position: relative;
   width: 100%;
-  height: 100%;
+  aspect-ratio: 3 / 2;
+  max-height: 100%;
   transform-origin: center center;
   transition: transform 260ms ease;
 }
@@ -406,7 +454,7 @@ h2 {
 .board-map {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
   display: block;
   user-select: none;
   pointer-events: none;
@@ -454,20 +502,17 @@ h2 {
 }
 
 .dice-button {
-  position: fixed;
-  left: max(18px, env(safe-area-inset-left));
-  bottom: max(18px, env(safe-area-inset-bottom));
-  z-index: 12;
   display: grid;
   place-items: center;
-  gap: 8px;
-  width: 114px;
-  height: 132px;
+  gap: 12px;
+  width: 100%;
+  min-height: 176px;
   border: 0;
   border-radius: 8px;
-  background: rgba(255, 255, 255, 0.92);
+  background: linear-gradient(160deg, #ffffff 0%, #fff1c7 100%);
   color: var(--ink);
-  box-shadow: var(--shadow);
+  box-shadow: 0 16px 32px rgba(36, 48, 71, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  perspective: 650px;
 }
 
 .dice-button:disabled {
@@ -475,26 +520,42 @@ h2 {
 }
 
 .dice-cube {
-  --cube-size: 58px;
+  --cube-size: 82px;
+  --roll-duration: 3000ms;
   position: relative;
   width: var(--cube-size);
   height: var(--cube-size);
   transform-style: preserve-3d;
   transform: rotateX(-18deg) rotateY(22deg);
+  filter: drop-shadow(0 18px 18px rgba(36, 48, 71, 0.28));
 }
 
 .dice-face {
   position: absolute;
-  display: grid;
-  place-items: center;
   width: var(--cube-size);
   height: var(--cube-size);
-  border: 2px solid rgba(36, 48, 71, 0.18);
-  border-radius: 8px;
-  background: #fff;
-  color: var(--coral);
-  font-size: 1.65rem;
-  font-weight: 700;
+  border: 1px solid rgba(36, 48, 71, 0.18);
+  border-radius: 14px;
+  background:
+    radial-gradient(circle at 28% 22%, rgba(255, 255, 255, 0.95), transparent 28%),
+    linear-gradient(145deg, #ffffff 0%, #f2f0e8 46%, #d8d3c5 100%);
+  box-shadow:
+    inset 0 8px 16px rgba(255, 255, 255, 0.75),
+    inset 0 -12px 18px rgba(36, 48, 71, 0.12),
+    0 0 0 1px rgba(255, 255, 255, 0.65);
+}
+
+.dice-face::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #263044;
+  transform: translate(-50%, -50%);
+  box-shadow: var(--pips);
 }
 
 .dice-face-front {
@@ -521,10 +582,39 @@ h2 {
   transform: rotateX(-90deg) translateZ(calc(var(--cube-size) / 2));
 }
 
+.dice-face-front::before {
+  --pips: 0 0 0 #263044;
+}
+
+.dice-face-bottom::before {
+  --pips: -21px -21px 0 #263044, 21px 21px 0 #263044;
+  background: transparent;
+}
+
+.dice-face-right::before {
+  --pips: -21px -21px 0 #263044, 0 0 0 #263044, 21px 21px 0 #263044;
+  background: transparent;
+}
+
+.dice-face-left::before {
+  --pips: -21px -21px 0 #263044, 21px -21px 0 #263044, -21px 21px 0 #263044, 21px 21px 0 #263044;
+  background: transparent;
+}
+
+.dice-face-top::before {
+  --pips: -21px -21px 0 #263044, 21px -21px 0 #263044, 0 0 0 #263044, -21px 21px 0 #263044, 21px 21px 0 #263044;
+  background: transparent;
+}
+
+.dice-face-back::before {
+  --pips: -21px -23px 0 #263044, 21px -23px 0 #263044, -21px 0 0 #263044, 21px 0 0 #263044, -21px 23px 0 #263044, 21px 23px 0 #263044;
+  background: transparent;
+}
+
 .menu-popover {
-  position: fixed;
-  top: 78px;
-  right: 18px;
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
   z-index: 20;
   display: grid;
   min-width: 230px;
@@ -643,21 +733,25 @@ h2 {
 }
 
 @media (max-width: 860px) {
-  .start-layout,
+  .start-layout {
+    grid-template-columns: 1fr;
+  }
+
   .game-main {
     grid-template-columns: 1fr;
   }
 
-  .leader-panel {
-    max-height: 186px;
+  .control-panel {
+    grid-template-rows: auto auto auto;
+    grid-template-columns: 1fr;
   }
 
   .leader-list {
     grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
   }
 
-  .board-viewport {
-    min-height: calc(100dvh - 360px);
+  .dice-button {
+    min-height: 150px;
   }
 }
 
@@ -684,11 +778,10 @@ h2 {
   }
 
   .dice-button {
-    width: 94px;
-    height: 112px;
+    min-height: 132px;
   }
 
   .dice-cube {
-    --cube-size: 48px;
+    --cube-size: 66px;
   }
 }

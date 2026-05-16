@@ -16,6 +16,8 @@ export function setDiceValue(cube, value) {
 }
 
 export function animateDice(cube, value) {
+  const duration = 2000 + Math.floor(Math.random() * 4001);
+  cube.style.setProperty("--roll-duration", `${duration}ms`);
   cube.classList.remove("rolling");
   void cube.offsetWidth;
   cube.classList.add("rolling");
@@ -24,6 +26,6 @@ export function animateDice(cube, value) {
       cube.classList.remove("rolling");
       setDiceValue(cube, value);
       resolve();
-    }, 840);
+    }, duration);
   });
 }

@@ -58,27 +58,7 @@
 
       <section id="game-screen" class="screen game-screen hidden">
         <div id="game-window" class="game-window">
-          <header class="game-header">
-            <div>
-              <p class="eyebrow">ход игрока</p>
-              <h2 id="turn-title">Игрок 1</h2>
-            </div>
-            <div class="game-stats">
-              <span id="timer-label">00:00</span>
-              <button id="pause-button" class="round-button" type="button" aria-label="Пауза">Ⅱ</button>
-              <button id="menu-button" class="round-button" type="button" aria-label="Меню">☰</button>
-            </div>
-          </header>
-
           <div class="game-main">
-            <aside class="leader-panel">
-              <div class="section-title">
-                <h3>Игроки</h3>
-                <span id="round-label">Раунд 1</span>
-              </div>
-              <ol id="leader-list" class="leader-list"></ol>
-            </aside>
-
             <main class="board-panel">
               <div class="zoom-toolbar" aria-label="Масштаб карты">
                 <button data-zoom-mode="full" class="zoom-button active" type="button">Вся карта</button>
@@ -93,26 +73,48 @@
                 </div>
               </div>
             </main>
+
+            <aside class="control-panel">
+              <div class="game-tools">
+                <button id="pause-button" class="round-button" type="button" aria-label="Пауза">Ⅱ</button>
+                <button id="menu-button" class="round-button" type="button" aria-label="Меню">☰</button>
+                <div id="hamburger-menu" class="menu-popover hidden" role="menu">
+                  <button data-menu-action="new" type="button">Новая игра</button>
+                  <button data-menu-action="results" type="button">Прошлые результаты</button>
+                  <button data-menu-action="about" type="button">Об игре</button>
+                  <button data-menu-action="exit" type="button">На стартовый экран</button>
+                </div>
+              </div>
+
+              <section class="turn-panel">
+                <p class="eyebrow">ход игрока</p>
+                <h2 id="turn-title">Игрок 1</h2>
+                <div class="game-meta">
+                  <span id="timer-label">00:00</span>
+                  <span id="round-label">Раунд 1</span>
+                </div>
+              </section>
+
+              <section class="leader-panel">
+                <div class="section-title">
+                  <h3>Игроки</h3>
+                </div>
+                <ol id="leader-list" class="leader-list"></ol>
+              </section>
+
+              <button id="dice-button" class="dice-button" type="button" aria-label="Бросить кубик">
+                <span id="dice-cube" class="dice-cube" data-value="1">
+                  <span class="dice-face dice-face-front" aria-label="1"></span>
+                  <span class="dice-face dice-face-back" aria-label="6"></span>
+                  <span class="dice-face dice-face-right" aria-label="3"></span>
+                  <span class="dice-face dice-face-left" aria-label="4"></span>
+                  <span class="dice-face dice-face-top" aria-label="5"></span>
+                  <span class="dice-face dice-face-bottom" aria-label="2"></span>
+                </span>
+                <span id="dice-caption">Бросить</span>
+              </button>
+            </aside>
           </div>
-
-          <button id="dice-button" class="dice-button" type="button" aria-label="Бросить кубик">
-            <span id="dice-cube" class="dice-cube" data-value="1">
-              <span class="dice-face dice-face-front">1</span>
-              <span class="dice-face dice-face-back">6</span>
-              <span class="dice-face dice-face-right">3</span>
-              <span class="dice-face dice-face-left">4</span>
-              <span class="dice-face dice-face-top">5</span>
-              <span class="dice-face dice-face-bottom">2</span>
-            </span>
-            <span id="dice-caption">Бросить</span>
-          </button>
-        </div>
-
-        <div id="hamburger-menu" class="menu-popover hidden" role="menu">
-          <button data-menu-action="new" type="button">Новая игра</button>
-          <button data-menu-action="results" type="button">Прошлые результаты</button>
-          <button data-menu-action="about" type="button">Об игре</button>
-          <button data-menu-action="exit" type="button">На стартовый экран</button>
         </div>
 
         <div id="pause-overlay" class="pause-overlay hidden">
