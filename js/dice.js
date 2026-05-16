@@ -5,12 +5,12 @@ export function rollDice() {
 export function setDiceValue(cube, value) {
   cube.dataset.value = String(value);
   const transforms = {
-    1: "rotateX(-18deg) rotateY(22deg)",
-    2: "rotateX(92deg) rotateY(16deg)",
-    3: "rotateX(-14deg) rotateY(-70deg)",
-    4: "rotateX(-14deg) rotateY(110deg)",
-    5: "rotateX(-104deg) rotateY(18deg)",
-    6: "rotateX(-18deg) rotateY(202deg)"
+    1: "translate3d(-50%, -50%, 0) rotate(-8deg)",
+    2: "translate3d(-50%, -50%, 0) rotate(4deg)",
+    3: "translate3d(-50%, -50%, 0) rotate(-5deg)",
+    4: "translate3d(-50%, -50%, 0) rotate(7deg)",
+    5: "translate3d(-50%, -50%, 0) rotate(-10deg)",
+    6: "translate3d(-50%, -50%, 0) rotate(3deg)"
   };
   cube.style.transform = transforms[value] || transforms[1];
 }
