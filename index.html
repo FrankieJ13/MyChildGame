@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="theme-color" content="#ffcf57">
+    <meta name="description" content="MyChildGame - семейная настольная игра с кубиком для 2+ игроков.">
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="images/avatars/avatar-1.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <title>MyChildGame</title>
+  </head>
+  <body>
+    <div id="app" class="app-shell">
+      <section id="start-screen" class="screen start-screen">
+        <header class="brand-bar">
+          <div>
+            <p class="eyebrow">семейная PWA игра</p>
+            <h1>MyChildGame</h1>
+          </div>
+          <button id="install-button" class="icon-text-button hidden" type="button">Установить</button>
+        </header>
+
+        <main class="start-layout">
+          <section class="setup-panel">
+            <div class="section-title">
+              <h2>Игроки</h2>
+              <span id="player-count-label">2 игрока</span>
+            </div>
+            <div id="player-setup-list" class="player-setup-list" aria-live="polite"></div>
+            <div class="setup-actions">
+              <button id="add-player-button" class="secondary-button" type="button">+ Игрок</button>
+              <button id="start-game-button" class="primary-button" type="button">Начать игру</button>
+            </div>
+          </section>
+
+          <section class="map-panel">
+            <div class="section-title">
+              <h2>Карта</h2>
+              <span id="selected-map-label">Солнечная тропа</span>
+            </div>
+            <div id="map-carousel" class="map-carousel" aria-label="Выбор карты"></div>
+          </section>
+
+          <section id="resume-panel" class="resume-panel hidden">
+            <div>
+              <h2>Есть сохраненная игра</h2>
+              <p>Можно продолжить с того же хода.</p>
+            </div>
+            <button id="resume-game-button" class="secondary-button" type="button">Продолжить</button>
+          </section>
+        </main>
+      </section>
+
+      <section id="game-screen" class="screen game-screen hidden">
+        <div id="game-window" class="game-window">
+          <header class="game-header">
+            <div>
+              <p class="eyebrow">ход игрока</p>
+              <h2 id="turn-title">Игрок 1</h2>
+            </div>
+            <div class="game-stats">
+              <span id="timer-label">00:00</span>
+              <button id="pause-button" class="round-button" type="button" aria-label="Пауза">Ⅱ</button>
+              <button id="menu-button" class="round-button" type="button" aria-label="Меню">☰</button>
+            </div>
+          </header>
+
+          <div class="game-main">
+            <aside class="leader-panel">
+              <div class="section-title">
+                <h3>Игроки</h3>
+                <span id="round-label">Раунд 1</span>
+              </div>
+              <ol id="leader-list" class="leader-list"></ol>
+            </aside>
+
+            <main class="board-panel">
+              <div class="zoom-toolbar" aria-label="Масштаб карты">
+                <button data-zoom-mode="full" class="zoom-button active" type="button">Вся карта</button>
+                <button data-zoom-mode="players" class="zoom-button" type="button">К игрокам</button>
+                <input id="zoom-range" class="zoom-range" type="range" min="100" max="200" value="100" aria-label="Масштаб">
+              </div>
+              <div id="board-viewport" class="board-viewport">
+                <div id="board-layer" class="board-layer">
+                  <img id="board-map" class="board-map" src="images/maps/sunny-trail.png" alt="Игровая карта">
+                  <div id="cell-layer" class="cell-layer" aria-hidden="true"></div>
+                  <div id="token-layer" class="token-layer"></div>
+                </div>
+              </div>
+            </main>
+          </div>
+
+          <button id="dice-button" class="dice-button" type="button" aria-label="Бросить кубик">
+            <span id="dice-cube" class="dice-cube" data-value="1">
+              <span class="dice-face dice-face-front">1</span>
+              <span class="dice-face dice-face-back">6</span>
+              <span class="dice-face dice-face-right">3</span>
+              <span class="dice-face dice-face-left">4</span>
+              <span class="dice-face dice-face-top">5</span>
+              <span class="dice-face dice-face-bottom">2</span>
+            </span>
+            <span id="dice-caption">Бросить</span>
+          </button>
+        </div>
+
+        <div id="hamburger-menu" class="menu-popover hidden" role="menu">
+          <button data-menu-action="new" type="button">Новая игра</button>
+          <button data-menu-action="results" type="button">Прошлые результаты</button>
+          <button data-menu-action="about" type="button">Об игре</button>
+          <button data-menu-action="exit" type="button">На стартовый экран</button>
+        </div>
+
+        <div id="pause-overlay" class="pause-overlay hidden">
+          <h2>ПАУЗА</h2>
+          <button id="continue-button" class="primary-button" type="button">Продолжить</button>
+        </div>
+      </section>
+    </div>
+
+    <dialog id="avatar-modal" class="modal">
+      <form method="dialog">
+        <header class="modal-header">
+          <h2>Выберите аватар</h2>
+          <button class="round-button" value="cancel" type="submit" aria-label="Закрыть">×</button>
+        </header>
+        <div id="avatar-grid" class="avatar-grid"></div>
+      </form>
+    </dialog>
+
+    <dialog id="info-modal" class="modal">
+      <form method="dialog">
+        <header class="modal-header">
+          <h2 id="info-title">Информация</h2>
+          <button class="round-button" value="cancel" type="submit" aria-label="Закрыть">×</button>
+        </header>
+        <div id="info-content" class="info-content"></div>
+      </form>
+    </dialog>
+
+    <script type="module" src="js/app.js"></script>
+  </body>
+</html>
