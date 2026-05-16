@@ -10,13 +10,13 @@
   "theme_color": "#ffcf57",
   "icons": [
     {
-      "src": "images/avatars/avatar-1.png",
+      "src": "images/avatars/t-avatar-1.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any maskable"
     },
     {
-      "src": "images/avatars/avatar-2.png",
+      "src": "images/avatars/t-avatar-2.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"

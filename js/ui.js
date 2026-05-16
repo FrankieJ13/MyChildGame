@@ -1,5 +1,5 @@
 import { MAPS, getCell } from "./board.js";
-import { AVATARS } from "./players.js";
+import { AVATAR_GROUPS } from "./players.js";
 
 export const $ = (selector) => document.querySelector(selector);
 
@@ -33,13 +33,20 @@ export function renderPlayerSetup(players, onChange, onAvatar, onRemove) {
 export function renderAvatarModal(activeAvatar, onPick) {
   const grid = $("#avatar-grid");
   grid.innerHTML = "";
-  AVATARS.forEach((avatar) => {
-    const button = document.createElement("button");
-    button.className = `avatar-choice${avatar === activeAvatar ? " active" : ""}`;
-    button.type = "button";
-    button.innerHTML = `<img src="${avatar}" alt="Аватар">`;
-    button.addEventListener("click", () => onPick(avatar));
-    grid.append(button);
+  AVATAR_GROUPS.forEach((group) => {
+    const section = document.createElement("section");
+    section.className = "avatar-group";
+    section.innerHTML = `<h3>${group.name}</h3><div class="avatar-group-grid"></div>`;
+    const groupGrid = section.querySelector(".avatar-group-grid");
+    group.avatars.forEach((avatar) => {
+      const button = document.createElement("button");
+      button.className = `avatar-choice${avatar === activeAvatar ? " active" : ""}`;
+      button.type = "button";
+      button.innerHTML = `<img src="${avatar}" alt="${group.name}">`;
+      button.addEventListener("click", () => onPick(avatar));
+      groupGrid.append(button);
+    });
+    grid.append(section);
   });
 }
 
