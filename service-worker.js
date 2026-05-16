@@ -1,4 +1,4 @@
-const CACHE_NAME = "my-child-game-v2";
+const CACHE_NAME = "my-child-game-v3";
 
 const ASSETS = [
   "./",
@@ -31,10 +31,10 @@ const ASSETS = [
   "./images/avatars/g-avatar-2.png",
   "./images/avatars/g-avatar-3.png",
   "./images/avatars/g-avatar-4.png",
-  "./images/maps/sunny-trail.png",
-  "./images/maps/moon-park.png",
-  "./images/preview-maps/sunny-trail.png",
-  "./images/preview-maps/moon-park.png"
+  "./images/maps/sunny-trail.jpg",
+  "./images/maps/moon-park.jpg",
+  "./images/preview-maps/p-sunny-trail.jpg",
+  "./images/preview-maps/p-moon-park.jpg"
 ];
 
 self.addEventListener("install", (event) => {

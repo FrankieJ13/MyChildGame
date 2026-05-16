@@ -2,8 +2,8 @@ export const MAPS = [
   {
     id: "sunny-trail",
     name: "Солнечная тропа",
-    mapImage: "images/maps/sunny-trail.png",
-    previewImage: "images/preview-maps/sunny-trail.png",
+    mapImage: "images/maps/sunny-trail.jpg",
+    previewImage: "images/preview-maps/p-sunny-trail.jpg",
     // Centers of visible steps on the numbered garden map, in [x%, y%] order from 1 to 36.
     cells: [
       [32.4, 87.1],
@@ -49,8 +49,8 @@ export const MAPS = [
   {
     id: "moon-park",
     name: "Лунный парк",
-    mapImage: "images/maps/moon-park.png",
-    previewImage: "images/preview-maps/moon-park.png",
+    mapImage: "images/maps/moon-park.jpg",
+    previewImage: "images/preview-maps/p-moon-park.jpg",
     cells: [
       [10, 78], [19, 68], [29, 72], [39, 62], [50, 68], [60, 57], [72, 62], [84, 52],
       [75, 43], [64, 47], [54, 36], [43, 41], [33, 31], [22, 35], [14, 24], [25, 16],

@@ -22,6 +22,10 @@ let game = null;
 let timerId = null;
 let isRolling = false;
 let zoom = 1;
+let panX = 0;
+let panY = 0;
+let isPanning = false;
+let lastPanPoint = null;
 let deferredInstallPrompt = null;
 
 function init() {
@@ -271,15 +275,41 @@ function stopTimer() {
 
 function setZoomMode(mode) {
   document.querySelectorAll(".zoom-button").forEach((button) => button.classList.toggle("active", button.dataset.zoomMode === mode));
-  if (mode === "full") zoom = 1;
+  if (mode === "full") {
+    zoom = 1;
+    panX = 0;
+    panY = 0;
+  }
   if (mode === "players") zoom = 1.35;
+  if (zoom <= 1) {
+    panX = 0;
+    panY = 0;
+  }
+  clampPan();
   $("#zoom-range").value = Math.round(zoom * 100);
-  $("#board-layer").style.transform = `scale(${zoom})`;
+  applyBoardTransform();
 }
 
 function setupPinchZoom() {
   const viewport = $("#board-viewport");
   let distance = null;
+  viewport.addEventListener("pointerdown", (event) => {
+    if (zoom <= 1 || !event.isPrimary) return;
+    isPanning = true;
+    lastPanPoint = { x: event.clientX, y: event.clientY };
+    viewport.classList.add("is-dragging");
+    viewport.setPointerCapture(event.pointerId);
+  });
+  viewport.addEventListener("pointermove", (event) => {
+    if (!isPanning || !lastPanPoint || !event.isPrimary) return;
+    panX += event.clientX - lastPanPoint.x;
+    panY += event.clientY - lastPanPoint.y;
+    lastPanPoint = { x: event.clientX, y: event.clientY };
+    clampPan();
+    applyBoardTransform();
+  });
+  viewport.addEventListener("pointerup", stopPan);
+  viewport.addEventListener("pointercancel", stopPan);
   viewport.addEventListener(
     "touchmove",
     (event) => {
@@ -291,6 +321,7 @@ function setupPinchZoom() {
       );
       if (distance) {
         zoom = Math.max(1, Math.min(2, zoom + (nextDistance - distance) / 280));
+        clampPan();
         setZoomMode("manual");
       }
       distance = nextDistance;
@@ -300,6 +331,26 @@ function setupPinchZoom() {
   viewport.addEventListener("touchend", () => {
     distance = null;
   });
+}
+
+function stopPan() {
+  isPanning = false;
+  lastPanPoint = null;
+  $("#board-viewport").classList.remove("is-dragging");
+}
+
+function applyBoardTransform() {
+  const viewport = $("#board-viewport");
+  viewport.classList.toggle("is-draggable", zoom > 1);
+  $("#board-layer").style.transform = `translate(${panX}px, ${panY}px) scale(${zoom})`;
+}
+
+function clampPan() {
+  const viewport = $("#board-viewport");
+  const maxX = (viewport.clientWidth * (zoom - 1)) / 2;
+  const maxY = (viewport.clientHeight * (zoom - 1)) / 2;
+  panX = Math.max(-maxX, Math.min(maxX, panX));
+  panY = Math.max(-maxY, Math.min(maxY, panY));
 }
 
 function wait(ms) {
