@@ -60,22 +60,31 @@
         <div id="game-window" class="game-window">
           <div class="game-main">
             <main class="board-panel">
-              <div class="zoom-toolbar" aria-label="Масштаб карты">
-                <button data-zoom-mode="full" class="zoom-button active" type="button">Вся карта</button>
-                <button data-zoom-mode="players" class="zoom-button" type="button">К игрокам</button>
-                <input id="zoom-range" class="zoom-range" type="range" min="100" max="200" value="100" aria-label="Масштаб">
-              </div>
               <div id="board-viewport" class="board-viewport">
                 <div id="board-layer" class="board-layer">
                   <img id="board-map" class="board-map" src="images/maps/sunny-trail.jpg" alt="Игровая карта">
                   <div id="cell-layer" class="cell-layer" aria-hidden="true"></div>
                   <div id="token-layer" class="token-layer"></div>
                 </div>
+                <input id="zoom-range" class="zoom-range" type="range" min="100" max="200" value="100" aria-label="Масштаб карты">
               </div>
             </main>
 
             <aside class="control-panel">
               <div class="game-tools">
+                <button data-zoom-mode="full" class="round-button zoom-button active" type="button" aria-label="Вся карта">
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M3 6.5 8.5 4l7 2.5L21 4v13.5L15.5 20l-7-2.5L3 20V6.5Z"></path>
+                    <path d="M8.5 4v13.5M15.5 6.5V20"></path>
+                  </svg>
+                </button>
+                <button data-zoom-mode="players" class="round-button zoom-button" type="button" aria-label="К игрокам">
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M16 11a4 4 0 1 0-8 0"></path>
+                    <path d="M5 20a7 7 0 0 1 14 0"></path>
+                    <path d="M18.5 8.5a2.7 2.7 0 0 1 2.5 2.7M3 11.2a2.7 2.7 0 0 1 2.5-2.7"></path>
+                  </svg>
+                </button>
                 <button id="pause-button" class="round-button" type="button" aria-label="Пауза">Ⅱ</button>
                 <button id="menu-button" class="round-button" type="button" aria-label="Меню">☰</button>
                 <div id="hamburger-menu" class="menu-popover hidden" role="menu">

@@ -154,8 +154,9 @@ async function handleRoll() {
   $("#dice-button").disabled = true;
   const value = rollDice();
   game.lastRoll = value;
-  $("#dice-caption").textContent = `${value}`;
+  $("#dice-caption").textContent = "Крутим...";
   await animateDice($("#dice-cube"), value);
+  $("#dice-caption").textContent = `${value}`;
   await moveCurrentPlayer(value);
   if (hasWinner(game)) {
     finishGame();
