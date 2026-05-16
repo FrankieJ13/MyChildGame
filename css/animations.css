@@ -1,21 +1,3 @@
-@keyframes dice-roll {
-  0% {
-    transform: translate3d(-50%, -50%, 0) rotate(-8deg);
-  }
-  18% {
-    transform: translate3d(-50%, -66%, 0) rotate(310deg) scale(1.12);
-  }
-  43% {
-    transform: translate3d(-50%, -44%, 0) rotate(790deg) scale(0.96);
-  }
-  72% {
-    transform: translate3d(-50%, -58%, 0) rotate(1210deg) scale(1.06);
-  }
-  100% {
-    transform: translate3d(-50%, -50%, 0) rotate(1792deg);
-  }
-}
-
 @keyframes token-hop {
   0%,
   100% {
@@ -35,10 +17,6 @@
     opacity: 1;
     transform: translateY(0) scale(1);
   }
-}
-
-.dice-cube.rolling {
-  animation: dice-roll var(--roll-duration, 3000ms) cubic-bezier(0.19, 0.9, 0.23, 1.06);
 }
 
 .player-token.hopping {

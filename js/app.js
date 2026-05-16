@@ -27,11 +27,13 @@ let panY = 0;
 let isPanning = false;
 let lastPanPoint = null;
 let deferredInstallPrompt = null;
+let diceResizeObserver = null;
 
 function init() {
   bindStartScreen();
   bindGameScreen();
   bindPwaInstall();
+  setDiceValue($("#dice-cube"), 1);
   refreshSetup();
   $("#resume-panel").classList.toggle("hidden", !loadCurrentGame());
   if ("serviceWorker" in navigator) {
@@ -130,6 +132,7 @@ function startGame(nextGame) {
   $("#game-window").classList.remove("paused");
   $("#hamburger-menu").classList.add("hidden");
   renderGame();
+  redrawDiceWhenReady();
   saveCurrentGame(game);
   startTimer();
 }
@@ -355,6 +358,20 @@ function clampPan() {
 
 function wait(ms) {
   return new Promise((resolve) => window.setTimeout(resolve, ms));
+}
+
+function redrawDiceWhenReady() {
+  const canvas = $("#dice-cube");
+  if (!canvas) return;
+  const value = game?.lastRoll || Number(canvas.dataset.value) || 1;
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => setDiceValue(canvas, value));
+  });
+  window.setTimeout(() => setDiceValue(canvas, value), 120);
+  if (!diceResizeObserver) {
+    diceResizeObserver = new ResizeObserver(() => setDiceValue(canvas, Number(canvas.dataset.value) || value));
+    diceResizeObserver.observe(canvas);
+  }
 }
 
 init();
